@@ -1,48 +1,36 @@
-import React, { useState } from 'react';
-import Modal from './components/Modal/Modal';
-import Button from './components/Button/Button';
+import React, {useState } from "react";
+import DateRangePicker from './components/RangeDatePicker/DateRangePicker';
 
 const Playground = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const playgroundContainerStyle = {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        flexDirection: 'column',
-    };
+  const [selectedRange, setSelectedRange] = useState({ startDate: null, endDate: null });
 
-    const openModal = () => {
-        setIsOpen(true);
-    };
+  const handleDateChange = ({ startDate, endDate }) => {
+    setSelectedRange({ startDate, endDate });
+  };
 
-    const closeModal = () => {
-        setIsOpen(false);
-    };
-
-    return (
-        <div style={playgroundContainerStyle}>
-            <h1>Modal Playground</h1>
-            <Button onClick={openModal}>Open Modal</Button>
-            <Modal
-                isOpen={isOpen}
-                onClose={closeModal}
-                layoutProps={{
-                    width: '400px',
-                    height: '200px',
-                }}
-                visualProps={{
-                    bgColor: '#ffffff',
-                    fontColor: '#000000',
-                    popupDirection: 'left-fit',
-                }}
-                addOverlay={true}
-            >
-                <h2>This is a modal!</h2>
-                <p>You can put any content here.</p>
-            </Modal>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Date Range Picker Playground</h1>
+      <DateRangePicker
+        minDate={new Date("2003-06-01")}
+        maxDate={new Date("2008-12-31")}
+        theme="light"
+        startDate={new Date("2005-05-01")}
+        width="20rem"
+        height="20rem"
+        onDateChange={handleDateChange}
+      />
+      <div>
+        Selected Range:
+        {selectedRange.startDate && (
+          <p>Start Date: {selectedRange.startDate.toDateString()}</p>
+        )}
+        {selectedRange.endDate && (
+          <p>End Date: {selectedRange.endDate.toDateString()}</p>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default Playground;
